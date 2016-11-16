@@ -159,11 +159,11 @@
         var tempShowDom = this.inside.doms.show_dom,
             tempOutputDom = this.inside.doms.output_dom,
             tempCurrentData = this.inside.data.current_data,
-            tempLabel,tempValue;
+            tempLabel, tempValue;
         if (tempCurrentData === undefined) {
             tempValue = "";
             tempLabel = this.option.default_selected_text;
-        }else{
+        } else {
             tempValue = tempCurrentData.value;
             tempLabel = tempCurrentData.label;
         }
@@ -216,6 +216,21 @@
         this.inside.state.hide_dom_show = false;
         tempHideDom.removeClass("show");
     };
+    //input keyup句柄
+    freeSelect.prototype.inputKeyUpEvent = function(e) {
+        var tempThis = e.target,
+            tempValue = tempThis.value;
+        this.inside.state.input_state = false;
+        this.inside.data.search_text = tempValue;
+        this.matchedInputText(); //查找匹配数据
+        this.customMatched(); //添加自定义选项
+        this.createMatchedHTML(); //创建匹配元素
+        this.renderMatchedDom(); //渲染选项
+    };
+    //input keydown句柄
+    freeSelect.prototype.inputKeyDownEvent = function(e) {
+        this.inside.state.input_state = true;
+    };
     //绑定事件
     freeSelect.prototype.bindEvent = function() {
         var tempThis = this,
@@ -232,7 +247,7 @@
                 tempThis.showHideDom();
             }
         });
-        tempListDom.on("click", function(e) {
+        tempListDom.on("click", function(e) { //选中选项
             var tempTarget = e.target;
             tempTarget = $(tempTarget);
             var tempValue = tempTarget.attr("data-value"),
@@ -252,16 +267,19 @@
             }
         });
         tempInuputDom.on("keyup", function(e) { //更新输入状态
-            tempThis.inside.state.input_state = false;
-            var tempValue = this.value;
-            tempThis.inside.data.search_text = tempValue;
-            tempThis.matchedInputText(); //查找匹配数据
-            tempThis.customMatched(); //添加自定义选项
-            tempThis.createMatchedHTML(); //创建匹配元素
-            tempThis.renderMatchedDom(); //渲染选项
+            var tempClock = window.setTimeout(function() {
+                tempThis.inputKeyUpEvent(e);
+            }, 350);
+            tempThis.tempData.search_clock = tempClock;
         });
         tempInuputDom.on("keydown", function(e) { //更新输入状态
-            tempThis.inside.state.input_state = true;
+            tempThis.inputKeyDownEvent(e);
+            var tempClock = tempThis.tempData.search_clock;
+            if (tempClock === undefined) {
+
+            } else {
+                window.clearTimeout(tempClock);
+            }
         });
         tempWrapDom.on("mouseover", function(e) { //更新鼠标状态
             tempThis.inside.state.mouse_enter = true;
