@@ -35,4 +35,3 @@ select&amp;search&amp;interaction&amp;test
     };
     var tempSelector = freeSelect(tempOption);
 ```
-2. 配置
