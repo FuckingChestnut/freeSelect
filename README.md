@@ -2,7 +2,7 @@
 select&amp;search&amp;interaction&amp;test
 ## 插件整理尚未完成
 1. 使用
-'<script type="text/javascript">
+`<script type="text/javascript">
     var tempOption = {
         selector_id: "select",//模块ID
         source_data: [],//源数据
@@ -34,5 +34,5 @@ select&amp;search&amp;interaction&amp;test
         }
     };
     var tempSelector = freeSelect(tempOption);
-    </script>'
+    </script>`
 2. 配置
