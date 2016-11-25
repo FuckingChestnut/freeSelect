@@ -27,6 +27,7 @@
 }
 .freeSelect.disabled>.select_wrap>.loading_mask{
     display: block;
+    visibility: visible;
 }
 .freeSelect>.select_wrap>.selected_label {
     height: 28px;
